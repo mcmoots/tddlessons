@@ -1,6 +1,7 @@
 # Functional tests for TDD tutorial
 import unittest
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 
 class NewVisitorTest(unittest.TestCase):
     
@@ -18,14 +19,28 @@ class NewVisitorTest(unittest.TestCase):
         
         # Page should announce itself as an app that makes lists of sea creatures
         self.assertIn('Sea Creatures', self.browser.title)
-        self.fail("This test isn't finished yet! Write moar test!")
+        header_text = self.browser.find_element_by_tag_name('h1').text
+        self.assertIn('Sea Creatures', header_text)
 
         # User should be prompted to enter a sea creature
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        self.assertEqual(
+            inputbox.get_attribute('placeholder'),
+            'Enter a sea creature'
+        )
 
-        # User types "vampire squid" into a text box
+        # User types "vampire squid" into a text box and hits enter
+        inputbox.send_keys('vampire squid')
+        inputbox.send_keys(Keys.ENTER)
 
-        # User hits enter, the page updates and lists
-        # "1: Vampire squid" as an item in the sea creature list
+        # The page should update so that
+        # "1: Vampire squid" is an item in the sea creature list
+        creaturelist = self.browser.find_element_by_id('id_list')
+        items = creaturelist.find_elements_by_tag_name('li')
+        self.assertTrue(
+            any(items.text == '1: vampire squid' for item in items)
+        )
+
 
         # There will still be a text box inviting her to add another item.
         # Enters "echinoderm", and page updates to show both sea creatures.
@@ -35,6 +50,7 @@ class NewVisitorTest(unittest.TestCase):
 
         # Visiting the URL results in the list of sea creatures reappearing
 
+        self.fail("This test isn't finished yet! Write moar test!")
 
 
 if __name__ == '__main__':
