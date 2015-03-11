@@ -1,8 +1,13 @@
+
+from django.core.urlresolvers import resolve
 from django.test import TestCase
+from lists.views import home_page
 
-# Create your tests here.
 
-class SillyTest(TestCase):
+class HomePageTest(TestCase):
 
-    def test_bad_math(self):
-        self.assertEqual(2+2, 5)
+    def test_root_url_resolves_to_home_page_view(self):
+        found = resolve('/')
+        self.assertEqual(found.func, home_page)
+
+
