@@ -38,7 +38,8 @@ class NewVisitorTest(unittest.TestCase):
         creaturelist = self.browser.find_element_by_id('id_list')
         items = creaturelist.find_elements_by_tag_name('li')
         self.assertTrue(
-            any(items.text == '1: vampire squid' for item in items)
+            any(items.text == '1: vampire squid' for item in items),
+            "New item did not appear in list"
         )
 
 
