@@ -13,6 +13,11 @@ class NewVisitorTest(unittest.TestCase):
     def tearDown(self):
         self.browser.quit()
 
+    def check_for_item_in_list(self, item_text):
+        creaturelist = self.browser.find_element_by_id('id_list')
+        items = creaturelist.find_elements_by_tag_name('li')
+        self.assertIn(item_text, [item.text for item in items])
+
     # NB: Any method starting with 'test' will be run by test runner
     def test_can_start_a_list_and_retrieve_it_later(self):
         self.browser.get('http://localhost:8000')
@@ -35,10 +40,7 @@ class NewVisitorTest(unittest.TestCase):
 
         # The page should update so that
         # "1: Vampire squid" is an item in the sea creature list
-        creaturelist = self.browser.find_element_by_id('id_list')
-        items = creaturelist.find_elements_by_tag_name('li')
-        self.assertIn('1: vampire squid', [item.text for item in items])
-
+        self.check_for_item_in_list('1: vampire squid')
 
         # There will still be a text box inviting her to add another item.
         # Enters "echinoderm", and page updates to show both sea creatures.
@@ -46,10 +48,8 @@ class NewVisitorTest(unittest.TestCase):
         inputbox.send_keys('echinoderm')
         inputbox.send_keys(Keys.ENTER)
 
-        creaturelist = self.browser.find_element_by_id('id_list')
-        items = creaturelist.find_elements_by_tag_name('li')
-        self.assertIn('1: vampire squid', [item.text for item in items])
-        self.assertIn('2: echinoderm', [item.text for item in items])
+        self.check_for_item_in_list('1: vampire squid')
+        self.check_for_item_in_list('2: echinoderm')
 
         # Site generates a unique URL for this list
         # with some explanatory text about it
