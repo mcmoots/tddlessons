@@ -37,14 +37,19 @@ class NewVisitorTest(unittest.TestCase):
         # "1: Vampire squid" is an item in the sea creature list
         creaturelist = self.browser.find_element_by_id('id_list')
         items = creaturelist.find_elements_by_tag_name('li')
-        self.assertTrue(
-            any(items.text == '1: vampire squid' for item in items),
-            "New item did not appear in list"
-        )
+        self.assertIn('1: vampire squid', [item.text for item in items])
 
 
         # There will still be a text box inviting her to add another item.
         # Enters "echinoderm", and page updates to show both sea creatures.
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox.send_keys('echinoderm')
+        inputbox.send_keys(Keys.ENTER)
+
+        creaturelist = self.browser.find_element_by_id('id_list')
+        items = creaturelist.find_elements_by_tag_name('li')
+        self.assertIn('1: vampire squid', [item.text for item in items])
+        self.assertIn('2: echinoderm', [item.text for item in items])
 
         # Site generates a unique URL for this list
         # with some explanatory text about it
