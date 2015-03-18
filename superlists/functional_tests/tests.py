@@ -44,7 +44,7 @@ class NewVisitorTest(LiveServerTestCase):
         # as an item in a list
         myrtle_list_url = self.browser.current_url
         self.assertRegex(myrtle_list_url, '/lists/.+')
-        self.check_for_row_in_list_table('1: vampire squid')
+        self.check_for_item_in_list('1: vampire squid')
 
         # There will still be a text box inviting Myrtle to add another item.
         # Enters "echinoderm", and page updates to show both sea creatures.
@@ -58,7 +58,7 @@ class NewVisitorTest(LiveServerTestCase):
         # now a new user, Archibald, visits the home page
         # he shouldn't see anything of Myrtle's
 
-        ## use a new browser session
+        ## use a new browser session so nothing bleeds through from Myrtle
         self.browser.quit()
         self.browser = webdriver.Firefox()
 
@@ -82,6 +82,5 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertNotIn('vampire squid', page_text)
         self.assertIn('herring', page_text)
 
-        # todo: test should clean up after itself
         self.fail("This test isn't finished yet! Write moar test!")
 
