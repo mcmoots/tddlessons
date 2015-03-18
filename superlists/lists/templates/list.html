@@ -1,0 +1,17 @@
+<html>
+    <head>
+    <title>List of Sea Creatures</title>
+    </head>
+    <body>
+    <h1>Your A+ #1 Sea Creatures List Demo App</h1>
+    <form method="POST" action="/">
+        <input name="item_text" id="id_new_item" placeholder="Enter a sea creature" />
+        {% csrf_token %}
+    </form>
+    <ul id="id_list">
+        {% for item in items %}
+            <li>{{ forloop.counter }}: {{ item.text }} </li>
+        {% endfor %}
+    </ul>
+    </body>
+</html>

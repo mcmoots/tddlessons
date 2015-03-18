@@ -76,6 +76,11 @@ class ItemModelTest(TestCase):
 
 class ListViewTest(TestCase):
 
+    def test_view_uses_list_template(self):
+        response = self.client.get('/lists/a-silly-list-url/')
+        self.assertTemplateUsed(response, 'list.html')
+
+
     def test_home_page_displays_all_list_items(self):
         Item.objects.create(text='Thing 1')
         Item.objects.create(text='Thing 2')
