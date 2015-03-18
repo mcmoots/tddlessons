@@ -1,9 +1,9 @@
 # Functional tests for TDD tutorial
-import unittest
+from django.test import LiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
-class NewVisitorTest(unittest.TestCase):
+class NewVisitorTest(LiveServerTestCase):
     
     def setUp(self):
         self.browser = webdriver.Firefox()
@@ -20,7 +20,7 @@ class NewVisitorTest(unittest.TestCase):
 
     # NB: Any method starting with 'test' will be run by test runner
     def test_can_start_a_list_and_retrieve_it_later(self):
-        self.browser.get('http://localhost:8000')
+        self.browser.get(self.live_server_url)
         
         # Page should announce itself as an app that makes lists of sea creatures
         self.assertIn('Sea Creatures', self.browser.title)
@@ -56,8 +56,6 @@ class NewVisitorTest(unittest.TestCase):
 
         # Visiting the URL results in the list of sea creatures reappearing
 
+        # todo: test should clean up after itself
         self.fail("This test isn't finished yet! Write moar test!")
 
-
-if __name__ == '__main__':
-    unittest.main(warnings='ignore')
