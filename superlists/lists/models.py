@@ -1,3 +1,5 @@
 from django.db import models
 
-# Create your models here.
+# classes inheriting from models.Model map to tables in the db
+class Item(models.Model):
+    text = models.TextField(default='')
