@@ -82,5 +82,4 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertNotIn('vampire squid', page_text)
         self.assertIn('herring', page_text)
 
-        self.fail("This test isn't finished yet! Write moar test!")
 
