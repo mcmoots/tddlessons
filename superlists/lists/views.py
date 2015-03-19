@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
 
-from lists.models import Item
+from lists.models import Item, List
 
 # Create your views here.
 
@@ -15,5 +15,6 @@ def view_list(request):
 
 
 def new_list(request):
-    Item.objects.create(text=request.POST['item_text'])
+    stupid_list = List.objects.create()
+    Item.objects.create(text=request.POST['item_text'], list=stupid_list)
     return redirect('/lists/a-silly-list-url/')
