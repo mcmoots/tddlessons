@@ -1,17 +1,14 @@
-<html>
-    <head>
-    <title>List of Sea Creatures</title>
-    </head>
-    <body>
-    <h1>Your A+ #1 Sea Creatures List Demo App</h1>
-    <form method="POST" action="/lists/{{ list.id }}/add_item">
-        <input name="item_text" id="id_new_item" placeholder="Enter a sea creature" />
-        {% csrf_token %}
-    </form>
+{% extends 'base.html' %}
+
+{% block header_text %}Your List of Sea Creatures{% endblock %}
+
+{% block form_action %}/lists/{{ list.id }}/add_item{% endblock %}
+
+{% block list %}
     <ul id="id_list">
         {% for item in list.item_set.all %}
             <li>{{ forloop.counter }}: {{ item.text }} </li>
         {% endfor %}
     </ul>
-    </body>
-</html>
+{% endblock %}
+
