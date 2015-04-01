@@ -1,3 +1,4 @@
+from unittest import skip
 
 from django.core.urlresolvers import resolve
 from django.test import TestCase
@@ -134,3 +135,4 @@ class NewItemTest(TestCase):
         )
 
         self.assertRedirects(response, '/lists/%d/' % (correct_list.id,))
+

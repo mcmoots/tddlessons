@@ -1,40 +1,10 @@
 # Functional tests for TDD tutorial
-import unittest
-from django.contrib.staticfiles.testing import StaticLiveServerTestCase
+from .base import FunctionalTest
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
-class NewVisitorTest(StaticLiveServerTestCase):
-    
-    def setUp(self):
-        self.browser = webdriver.Firefox()
-        # Add extra wait time b/c the book told me to.
-        self.browser.implicitly_wait(3)
 
-
-    def tearDown(self):
-        self.browser.quit()
-
-
-    def check_for_item_in_list(self, item_text):
-        creaturelist = self.browser.find_element_by_id('id_list')
-        items = creaturelist.find_elements_by_tag_name('li')
-        self.assertIn(item_text, [item.text for item in items])
-
-
-    def test_layout_and_styling(self):
-        # Myrtle goes to the home page
-        self.browser.get(self.live_server_url)
-        self.browser.set_window_size(1024, 768)
-
-        # the input box should be centered
-        inputbox = self.browser.find_element_by_id('id_new_item')
-        self.assertAlmostEqual(
-            inputbox.location['x'] + inputbox.size['width']/2,
-            512,
-            delta=15
-        )
-
+class NewVisitorTest(FunctionalTest):
 
     def test_can_start_a_list_and_retrieve_it_later(self):
         self.browser.get(self.live_server_url)
@@ -97,5 +67,4 @@ class NewVisitorTest(StaticLiveServerTestCase):
         page_text = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('vampire squid', page_text)
         self.assertIn('herring', page_text)
-
 
