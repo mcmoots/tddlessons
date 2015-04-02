@@ -1,5 +1,6 @@
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
+from django.core.exceptions import ValidationError
 
 from lists.models import Item, List
 
@@ -16,7 +17,13 @@ def view_list(request, list_id):
 
 def new_list(request):
     the_list = List.objects.create()
-    Item.objects.create(text=request.POST['item_text'], list=the_list)
+    item = Item.objects.create(text=request.POST['item_text'], list=the_list)
+    try:
+        item.full_clean()
+    except ValidationError:
+        the_list.delete()
+        error = '🐬 No empty sea creatures allowed!'
+        return render(request, 'home.html', {"error": error})
     return redirect('/lists/%d/' % (the_list.id,))
 
 
