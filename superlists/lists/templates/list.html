@@ -2,7 +2,7 @@
 
 {% block header_text %}Your List of Sea Creatures{% endblock %}
 
-{% block form_action %}/lists/{{ list.id }}/{% endblock %}
+{% block form_action %}{% url 'view_list' list.id %}{% endblock %}
 
 {% block list %}
     <ul id="id_list" class="list-unstyled">
