@@ -89,7 +89,7 @@ class ListViewTest(TestCase):
         )
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'list.html')
-        expected_error = escape("🐬 No empty sea creatures allowed!")
+        expected_error = escape("\U0001f42c No empty sea creatures allowed!")
         self.assertContains(response, expected_error)
 
 
@@ -121,7 +121,7 @@ class NewListTest(TestCase):
         response = self.client.post('/lists/new', data={'item_text': ''})
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'home.html')
-        expected_error = escape('🐬 No empty sea creatures allowed!')
+        expected_error = escape('\U0001f42c No empty sea creatures allowed!')
         self.assertContains(response, expected_error)
 
     

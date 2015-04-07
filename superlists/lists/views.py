@@ -18,9 +18,9 @@ def view_list(request, list_id):
             item = Item(text=request.POST['item_text'], list=the_list)
             item.full_clean()
             item.save()
-            return redirect('/lists/%d/' % (the_list.id,))
+            return redirect(the_list)
         except ValidationError:
-            error = '🐬 No empty sea creatures allowed!'
+            error = "\U0001f42c No empty sea creatures allowed!"
 
     return render(request, 'list.html', {'list': the_list, 'error': error})
 
@@ -32,7 +32,7 @@ def new_list(request):
         item.full_clean()
     except ValidationError:
         the_list.delete()
-        error = '🐬 No empty sea creatures allowed!'
+        error = "\U0001f42c No empty sea creatures allowed!"
         return render(request, 'home.html', {"error": error})
-    return redirect('/lists/%d/' % (the_list.id,))
+    return redirect(the_list)
 
