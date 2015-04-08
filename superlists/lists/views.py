@@ -13,27 +13,21 @@ def home_page(request):
 
 def view_list(request, list_id):
     the_list = List.objects.get(id=list_id)
-    error = None
+    form = ItemForm()
     if request.method == 'POST':
-        try:
-            item = Item(text=request.POST['text'], list=the_list)
-            item.full_clean()
-            item.save()
+        form = ItemForm(data=request.POST)
+        if form.is_valid():
+            Item.objects.create(text=request.POST['text'], list=the_list)
             return redirect(the_list)
-        except ValidationError:
-            error = "\U0001f42c No empty sea creatures allowed!"
-
-    return render(request, 'list.html', {'list': the_list, 'error': error})
+    return render(request, 'list.html', {'list': the_list, 'form': form})
 
 
 def new_list(request):
-    the_list = List.objects.create()
-    item = Item.objects.create(text=request.POST['text'], list=the_list)
-    try:
-        item.full_clean()
-    except ValidationError:
-        the_list.delete()
-        error = "\U0001f42c No empty sea creatures allowed!"
-        return render(request, 'home.html', {"error": error})
-    return redirect(the_list)
+    form = ItemForm(data=request.POST)
+    if form.is_valid():
+        the_list = List.objects.create()
+        Item.objects.create(text=request.POST['text'], list=the_list)
+        return redirect(the_list)
+    else:
+        return render(request, 'home.html', {"form": form})
 
