@@ -8,7 +8,7 @@ class ItemValidationTest(FunctionalTest):
         # Myrtle accidentally tries to submit an empty list item.
         # She hits Enter on the empty input box.
         self.browser.get(self.live_server_url)
-        self.browser.find_element_by_id('id_new_item').send_keys('\n')
+        self.get_item_input_box().send_keys('\n')
 
         # The home page refreshes, and there is an error message saying that
         # list items cannot be blank.
@@ -16,11 +16,11 @@ class ItemValidationTest(FunctionalTest):
         self.assertEqual(problem_element.text, "\U0001f42c  No empty sea creatures allowed!" )
 
         # She tries again with some text for the item, and now it works.
-        self.browser.find_element_by_id('id_new_item').send_keys('lamprey\n')
+        self.get_item_input_box().send_keys('lamprey\n')
         self.check_for_item_in_list('1: lamprey')
 
         # Then she submits another blank list item!
-        self.browser.find_element_by_id('id_new_item').send_keys('\n')
+        self.get_item_input_box().send_keys('\n')
 
         # She gets a similar warning on the list page.
         self.check_for_item_in_list('1: lamprey')
@@ -28,6 +28,6 @@ class ItemValidationTest(FunctionalTest):
         self.assertEqual(problem_element.text, "\U0001f42c  No empty sea creatures allowed!" )
 
         # And she can correct it by filling in some text.
-        self.browser.find_element_by_id('id_new_item').send_keys('anglerfish\n')
+        self.get_item_input_box().send_keys('anglerfish\n')
         self.check_for_item_in_list('1: lamprey')
         self.check_for_item_in_list('2: anglerfish')

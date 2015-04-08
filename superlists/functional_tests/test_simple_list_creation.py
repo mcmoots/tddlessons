@@ -16,7 +16,7 @@ class NewVisitorTest(FunctionalTest):
         self.assertIn('Sea Creatures', header_text)
 
         # User should be prompted to enter a sea creature
-        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox = self.get_item_input_box()
         self.assertEqual(
             inputbox.get_attribute('placeholder'),
             'Enter a sea creature'
@@ -34,7 +34,7 @@ class NewVisitorTest(FunctionalTest):
 
         # There will still be a text box inviting Myrtle to add another item.
         # Enters "echinoderm", and page updates to show both sea creatures.
-        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox = self.get_item_input_box()
         inputbox.send_keys('echinoderm')
         inputbox.send_keys(Keys.ENTER)
 
@@ -54,7 +54,7 @@ class NewVisitorTest(FunctionalTest):
         self.assertNotIn('echinoderm', page_text)
 
         # Archibald starts a new list by entering a new sea creature.
-        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox = self.get_item_input_box()
         inputbox.send_keys('herring')
         inputbox.send_keys(Keys.ENTER)
 

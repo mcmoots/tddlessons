@@ -21,3 +21,7 @@ class FunctionalTest(StaticLiveServerTestCase):
         creaturelist = self.browser.find_element_by_id('id_list')
         items = creaturelist.find_elements_by_tag_name('li')
         self.assertIn(item_text, [item.text for item in items])
+
+
+    def get_item_input_box(self):
+        return self.browser.find_element_by_id('id_text')
