@@ -31,3 +31,18 @@ class ItemValidationTest(FunctionalTest):
         self.get_item_input_box().send_keys('anglerfish\n')
         self.check_for_item_in_list('1: lamprey')
         self.check_for_item_in_list('2: anglerfish')
+
+
+    def test_cannot_add_duplicate_items(self):
+        # Myrtle starts a new list
+        self.browser.get(self.live_server_url)
+        self.get_item_input_box().send_keys('brachiopods\n')
+        self.check_for_item_in_list('1: brachiopods')
+
+        # then she accidentally enters more brachiopods
+        self.get_item_input_box().send_keys('brachiopods\n')
+
+        # she sees a helpful error message
+        self.check_for_item_in_list('1: brachiopods')
+        error = self.browser.find_element_by_css_selector('.has-error')
+        self.assertEqual(error.text, "You have already listed that sea creature")
