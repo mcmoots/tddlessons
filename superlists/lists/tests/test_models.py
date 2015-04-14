@@ -44,9 +44,9 @@ class ItemModelTest(TestCase):
 
     def test_list_ordering(self):
         list1 = List.objects.create()
-        item1 = Item.objects.create(list=list1, text='item1')
-        item2 = Item.objects.create(list=list1, text='item2')
-        item3 = Item.objects.create(list=list1, text='item3')
+        item1 = Item.objects.create(list=list1, text='foo')
+        item2 = Item.objects.create(list=list1, text='bar')
+        item3 = Item.objects.create(list=list1, text='baz')
         self.assertEqual(
             # per author advice 
             # converting to list is simpler than assertQuerysetEqual?
@@ -54,6 +54,17 @@ class ItemModelTest(TestCase):
             [item1, item2, item3]
         )
 
+    
+    def test_list_ordering_again(self):
+        list1 = List.objects.create()
+        item1 = Item.objects.create(list=list1, text='foo')
+        item2 = Item.objects.create(list=list1, text='bar')
+        item3 = Item.objects.create(list=list1, text='baz')
+        self.assertEqual(
+            list(list1.item_set.all()),
+            [item1, item2, item3]
+        )
+        
 
     def test_string_representation(self):
         item = Item(text='some text')
